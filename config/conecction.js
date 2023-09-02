@@ -7,8 +7,8 @@ module.exports = {
         {
           host: 'localhost:3001',
           user: 'root',
-          password: 'Check your password first',
-          database: 'eemployeemanagement_db'
+          password: process.env.DB_PASSWORD,
+          database: 'employeemanager_db'
         },
         console.log('Connected to the employeemanagement_db')
       );
@@ -16,3 +16,16 @@ module.exports = {
     return db;
   }
 };
+
+
+// departments
+// roles
+// employees
+// id
+// title
+// salary
+// position
+// manager
+// first name
+// last name
+// employeemanager_db (this is my)
