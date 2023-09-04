@@ -1,3 +1,5 @@
+const mysql = require('mysql2');
+
 let db = null;
 
 module.exports = {
@@ -5,10 +7,10 @@ module.exports = {
     if (!db) {
       db = mysql.createConnection(
         {
-          host: 'localhost:3001',
+          host: 'localhost',
           user: 'root',
           password: process.env.DB_PASSWORD,
-          database: 'employeemanager_db'
+          database: 'employeemanagement_db'
         },
         console.log('Connected to the employeemanagement_db')
       );
@@ -16,16 +18,3 @@ module.exports = {
     return db;
   }
 };
-
-
-// departments
-// roles
-// employees
-// id
-// title
-// salary
-// position
-// manager
-// first name
-// last name
-// employeemanager_db (this is my)
