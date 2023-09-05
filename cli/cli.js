@@ -1,7 +1,7 @@
 const inquirer = require('inquirer');
 const axios = require ('axios');
 
-const questions = () => {
+const mainMenu = () => {
   inquirer.prompt ([
     {
       type: "list",
@@ -42,3 +42,38 @@ const questions = () => {
   });
 };
 
+const viewAllEmployees = async () => {
+  try {
+    const response = await axios.get('http://localhost:3001/api/employees');
+    console.log('Employees', response.data.data);
+    mainMenu();
+  } catch (err) {
+    console.log('Error fetching Employees:', err);
+  }
+}
+// add employees here
+
+
+const viewRoles = async () => {
+  try {
+    const response = await axios.get('http://localhost:3001/api/roles');
+    console.log('Roles', response.data.data);
+    mainMenu();
+  } catch (err) {
+    console.log('Error fetching Roles', err);
+  }
+}
+
+// add roels here
+
+const viewDepartments = async () => {
+  try {
+    const response = await axios.get('http://localhost:3001/api/roles');
+    console.log('Departments', response.data.data);
+    mainMenu();
+  } catch (err) {
+    console.log('Error fetching Departments', err);
+  }
+}
+
+mainMenu();
