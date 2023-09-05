@@ -25,6 +25,29 @@ const questions = () => {
         "Quit"
       ]
     }
+  ]).then(answers => {
+    switch(answers.options) {
+      case "View All Employees":
 
-  ])
+      break;
+      case "Add Employee":
+
+      break;
+      case "View All Roles":
+
+      break;
+      case "Add Role":
+      break;
+      case "View All Deparments":
+      break;
+      case "Add Deparment":
+      break;
+      case "Quit":
+      break;
+    }
+  });
+}
+
+async function viewAllEmployees () {
+  const employees = await query.viewEmployees
 }
