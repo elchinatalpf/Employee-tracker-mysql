@@ -1,7 +1,10 @@
 const inquirer = require('inquirer');
 const axios = require ('axios');
+function init () {
+  mainMenu();
+}
 // main function with options prompts 
-const mainMenu = () => {
+function mainMenu () {
   inquirer.prompt([
       {
         type: "list",
@@ -20,31 +23,32 @@ const mainMenu = () => {
       },
     ])
     .then((answers) => {
-      switch (answers.options) {
-        case "View All Employees":
-          return viewAllEmployees();
-          break;
-        case "Add Employee":
-          return addEmployee();
-          break;
-        case "Delete Employee":
-          return deleteEmployee();
-        case "View All Roles":
-          return viewAllRoles();
-          break;
-        case "Add Role":
-          return addRole();
-          break;
-        case "View All Deparments":
-          return viewAllDepartments();
-          break;
-        case "Add Deparment":
-          return addDepartment();
-          break;
-        case "Quit":
-          return Quit();
-          break;
-      }
+      console.log(answers.options);
+      // switch (answers.options) {
+        // case "View All Employees":
+        //   return viewAllEmployees();
+        //   break;
+        // case "Add Employee":
+        //   return addEmployee();
+        //   break;
+        // case "Delete Employee":
+        //   return deleteEmployee();
+        // case "View All Roles":
+        //   return viewAllRoles();
+        //   break;
+        // case "Add Role":
+        //   return addRole();
+        //   break;
+        // case "View All Deparments":
+        //   return viewAllDepartments();
+        //   break;
+        // case "Add Deparment":
+        //   return addDepartment();
+        //   break;
+        // case "Quit":
+        //   return Quit();
+        //   break;
+      // }
     });
 };
 
@@ -185,4 +189,4 @@ function Quit() {
   process.exit();
 }
 
-mainMenu();
+module.exports = { init };
