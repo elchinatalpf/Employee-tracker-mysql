@@ -1,5 +1,6 @@
+require('dotenv').config();
 const express = require('express');
-const connection = require('./config/conecction');
+const connection = require('./config/connection');
 
 // here goes routes stuff
 const apiRoutes = require('./routes');

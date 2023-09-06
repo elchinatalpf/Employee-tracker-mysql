@@ -11,13 +11,13 @@ router.get('/', (req, res) => {
     }
     res.json({
       message: 'success',
-      data: roles
+      data: result
     });
   });
 });
 
 router.post('/', (req, res) => {
-  const sql = `INSERT INTO roles (role_name) VALUES = (?)`;
+  const sql = `INSERT INTO roles (role_name) VALUES (?)`;
   const { role_name } = req.body;
   db.query(sql, [role_name], (err, result) => {
     if (err) {
