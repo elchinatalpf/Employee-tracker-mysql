@@ -42,7 +42,7 @@ const mainMenu = () => {
           return addDepartment();
           break;
         case "Quit":
-          process.exit();
+          return Quit();
           break;
       }
     });
@@ -178,6 +178,11 @@ const addDepartment = async () => {
       console.log('Error adding department', err);
     }
   });
+}
+
+function Quit() {
+  console.log('Exitiing application');
+  process.exit();
 }
 
 mainMenu();

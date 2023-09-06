@@ -1,6 +1,9 @@
+// environment variables on .env file
 require('dotenv').config();
 const express = require('express');
+
 const connection = require('./config/connection');
+
 const apiRoutes = require('./routes');
 const mainMenu = require('./cli/cli');
 
@@ -15,7 +18,7 @@ app.use(express.json);
 
 app.use(apiRoutes);
 
-app.use(mainMenu);
+app.use('/cli', mainMenu);
 
 app.use('*', (req, res) => {
   res.status(404).end();
