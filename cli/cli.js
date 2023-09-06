@@ -1,49 +1,51 @@
 const inquirer = require('inquirer');
 const axios = require ('axios');
-
-
+// main function with options prompts 
 const mainMenu = () => {
-  inquirer.prompt ([
-    {
-      type: "list",
-      name: "options",
-      message: "Select from the employee's tracking list:",
-      choices: [
-        "View All Deparments",
-        "View All Roles",
-        "View All Employees",
-        "Add Department",
-        "Add Employee",
-        "Add Role",
-        "Update Employee Role",
-        "Quit"
-      ]
-    }
-  ]).then(answers => {
-    switch(answers.options) {
-      case "View All Employees":
-        return viewAllEmployees();
-      break;
-      case "Add Employee":
-        return addEmployee();
-      break;
-      case "Delete Employee":
-        return deleteEmployee();
-      case "View All Roles":
-        return viewAllRoles();
-      break;
-      case "Add Role":
-
-      break;
-      case "View All Deparments":
-      break;
-      case "Add Deparment":
-      break;
-      case "Quit":
-        process.exit();
-      break;
-    }
-  });
+  inquirer.prompt([
+      {
+        type: "list",
+        name: "options",
+        message: "Select from the employee's tracking list:",
+        choices: [
+          "View All Deparments",
+          "View All Roles",
+          "View All Employees",
+          "Add Department",
+          "Add Employee",
+          "Add Role",
+          "Update Employee Role",
+          "Quit",
+        ],
+      },
+    ])
+    .then((answers) => {
+      switch (answers.options) {
+        case "View All Employees":
+          return viewAllEmployees();
+          break;
+        case "Add Employee":
+          return addEmployee();
+          break;
+        case "Delete Employee":
+          return deleteEmployee();
+        case "View All Roles":
+          return viewAllRoles();
+          break;
+        case "Add Role":
+          return addRole();
+          break;
+        case "View All Deparments":
+          return viewAllDepartments();
+          break;
+        case "Add Deparment":
+          return addDepartment();
+          break;
+        case "Quit":
+          return Quit();
+          break;
+      }
+    });
 };
 
 // View all employees
@@ -81,7 +83,7 @@ const addEmployee = () => {
   });
 }
 
-// Delete employe
+// Delete employee
 const deleteEmployee = async () => {
   try {
     const { data } = await axios.get("http://localhost:3001/api/employees");
@@ -107,9 +109,8 @@ const deleteEmployee = async () => {
     console.log("Error:", err.message);
   }
 };
-    
-    
-// View all roles
+
+  // View all roles
 const viewAllRoles = async () => {
   try {
     const response = await axios.get('http://localhost:3001/api/roles');
@@ -119,10 +120,38 @@ const viewAllRoles = async () => {
     console.log('Error fetching Roles', err);
   }
 }
-
 // add roels here
+const addRole = async () => {
+  inquirer.prompt([
+    {
+      type: 'input',
+      name: 'title',
+      message: 'What is the name of the role?'
+    },
+    {
+      type: 'input',
+      name: 'salary',
+      message: 'What is its salary?'
+    },
+    {
+      type: 'list',
+      name: 'department_id',
+      message: 'Which departments does this role belong to?',
+      choices: ['1: Marketing', '2: Sales', '3: Finance', '4: Legal', '5: HR', '6: Accounting']
+    }
+  ])
+  .then(async (answers) =>{
+    try {
+      await axios.post('http://localhost:3001/api/roles', answers);
+      console.log('Role addedd succssesfully');
+      mainMenu();
+    } catch (err) {
+      console.log('Error adding role', err);
+    }
+  });
+}
 
-const viewDepartments = async () => {
+const viewAllDepartments = async () => {
   try {
     const response = await axios.get('http://localhost:3001/api/roles');
     console.log('Departments', response.data.data);
@@ -130,6 +159,30 @@ const viewDepartments = async () => {
   } catch (err) {
     console.log('Error fetching Departments', err);
   }
+}
+
+const addDepartment = async () => {
+  inquirer.prompt([
+    {
+      type: 'input',
+      name: 'department_name',
+      message: 'What is the name of the new department?'
+    }
+  ])
+  .then(async (answers) => {
+    try {
+      await axios.post('http://localhost:3001/api/departments', answers);
+      console.log('Department added successfully');
+      mainMenu();
+    } catch (err) {
+      console.log('Error adding department', err);
+    }
+  });
+}
+
+function Quit() {
+  console.log('Exitiing application');
+  process.exit();
 }
 
 mainMenu();

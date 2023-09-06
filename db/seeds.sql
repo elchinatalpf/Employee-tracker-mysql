@@ -1,32 +1,32 @@
-INSERT INTO department (name)
+INSERT INTO departments (name)
 VALUES  ('Marketing'),
         ('Sales'),
         ('Finance'),
         ('Legal'),
-        ('Human Resources'),
+        ('HR'),
         ('Accounting');
 
-INSERT INTO role (title, salary, department_id)
-VALUES  ('Manager', 120000, 1),
+INSERT INTO roles (title, salary, department_id)
+VALUES  ('Marketing Manager', 120000, 1),
         ('Senior Marketer', 80000, 1),
         ('Junior Marketer', 50000, 1),
-        ('Manager', 110000, 2),
+        ('Sales Manager', 110000, 2),
         ('Senior Sales Rep', 75000, 2),
         ('Junior Sales Rep', 45000, 2),
-        ('Manager', 130000, 3),
+        ('Developer Manager', 130000, 3),
         ('Senior Developer', 90000, 3),
         ('Junior Developer', 60000, 3),
-        ('Manager', 140000, 4),
+        ('Lawyer  Manager', 140000, 4),
         ('Senior Lawyer', 90000, 4),
         ('Junior Lawyer', 60000, 4),
-        ('Manager', 125000, 5),
+        ('HR Manager', 125000, 5),
         ('Senior HR Specialist', 82000, 5),
         ('Junior HR Assistant', 52000, 5),
-        ('Manager', 115000, 6),
+        ('Accouing Manager', 115000, 6),
         ('Senior Accountant', 78000, 6),
         ('Junior Accountant', 48000, 6);
 
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
+INSERT INTO employees (first_name, last_name, role_id, manager_id)
 VALUES  ('James', 'Smith', 1, 1),  -- Manager for Marketing
         ('Emily', 'Johnson', 2, 2),  -- Manager for Sales
         ('Michael', 'Williams', 3, 3),  -- Manager for Finance
