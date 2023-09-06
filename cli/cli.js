@@ -1,51 +1,51 @@
 const inquirer = require('inquirer');
 const axios = require ('axios');
-
-
+// main function with options prompts 
 const mainMenu = () => {
-  inquirer.prompt ([
-    {
-      type: "list",
-      name: "options",
-      message: "Select from the employee's tracking list:",
-      choices: [
-        "View All Deparments",
-        "View All Roles",
-        "View All Employees",
-        "Add Department",
-        "Add Employee",
-        "Add Role",
-        "Update Employee Role",
-        "Quit"
-      ]
-    }
-  ]).then(answers => {
-    switch(answers.options) {
-      case "View All Employees":
-        return viewAllEmployees();
-      break;
-      case "Add Employee":
-        return addEmployee();
-      break;
-      case "Delete Employee":
-        return deleteEmployee();
-      case "View All Roles":
-        return viewAllRoles();
-      break;
-      case "Add Role":
-      return addRole();
-      break;
-      case "View All Deparments":
-        return viewAllDepartments();
-      break;
-      case "Add Deparment":
-        return addDepartment();
-      break;
-      case "Quit":
-        process.exit();
-      break;
-    }
-  });
+  inquirer.prompt([
+      {
+        type: "list",
+        name: "options",
+        message: "Select from the employee's tracking list:",
+        choices: [
+          "View All Deparments",
+          "View All Roles",
+          "View All Employees",
+          "Add Department",
+          "Add Employee",
+          "Add Role",
+          "Update Employee Role",
+          "Quit",
+        ],
+      },
+    ])
+    .then((answers) => {
+      switch (answers.options) {
+        case "View All Employees":
+          return viewAllEmployees();
+          break;
+        case "Add Employee":
+          return addEmployee();
+          break;
+        case "Delete Employee":
+          return deleteEmployee();
+        case "View All Roles":
+          return viewAllRoles();
+          break;
+        case "Add Role":
+          return addRole();
+          break;
+        case "View All Deparments":
+          return viewAllDepartments();
+          break;
+        case "Add Deparment":
+          return addDepartment();
+          break;
+        case "Quit":
+          process.exit();
+          break;
+      }
+    });
 };
 
 // View all employees
@@ -83,7 +83,7 @@ const addEmployee = () => {
   });
 }
 
-// Delete employe
+// Delete employee
 const deleteEmployee = async () => {
   try {
     const { data } = await axios.get("http://localhost:3001/api/employees");
