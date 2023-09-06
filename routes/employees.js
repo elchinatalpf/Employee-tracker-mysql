@@ -17,6 +17,18 @@ router.get('/', (req, res) => {
   });  
 });
 
-
+router.post ('/', (req, res) => {
+  const { first_name, last_name} = req.body;
+  const sql  = `INSERT INTO employees (first_name, last_name) VALUE (?, ?)`;
+  db.query(sql, [first_name, last_name], (err, result) => {
+    if (err) {
+      return res.status(500).json({ message: 'error', error: err.message });
+    }
+    res.json({
+      message: 'success',
+      data: { id: result.insertId, first_name, last_name }
+    });
+  });
+});
 
 module.exports = router;
