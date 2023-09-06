@@ -17,21 +17,21 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  const { departmen_name } = req.body;
+  const { department_name } = req.body;
   const sql = `INSERT INTO departments (department_name) VALUES (?)`;
-  db.query(sql, [departmen_name], (err, result) => {
+  db.query(sql, [department_name], (err, result) => {
     if (err) {
       return res.status(500).json({ message: 'error', error: err.message });
     }
     res.json({
       message: 'success',
-      data: { id: result.insertId, departmen_name }
+      data: { id: result.insertId, department_name }
     });
   });
 });
 
 router.delete('/:id', (req, res) => {
-  const { id } = req.body;
+  const { id } = req.params;
   const sql = `DELETE FROM departments WHERE id = ?`;
   db.query(sql, [id], (err, result) => {
     if (err) {
