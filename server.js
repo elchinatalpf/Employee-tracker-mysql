@@ -13,6 +13,7 @@ connection.mysql();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json);
 
+app.use(mainMenu);
 app.use(apiRoutes);
 
 app.use('*', (req, res) => {
