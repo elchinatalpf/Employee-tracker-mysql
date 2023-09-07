@@ -1,15 +1,19 @@
 const inquirer = require('inquirer');
-const axios = require ('axios');
+// const axios = require ('axios');
+console.table();
 
+const db = require('../config/connection');
+console.log(db);
 function init () {
-  mainMenu();
+  db.connect(function () { mainMenu() });
+  
 }
 // main function with options prompts 
 function mainMenu () {
   inquirer.prompt([
       {
         type: "list",
-        name: "options",
+        name: "choice",
         message: "Select from the employee's tracking list:",
         choices: [
           "View All Deparments",
@@ -55,13 +59,17 @@ function mainMenu () {
 
 // View all employees
 const viewAllEmployees = async () => {
-  try {
-    const response = await axios.get('http://localhost:3001/api/employees');
-    console.log('Employees', response.data.data);
-    mainMenu();
-  } catch (err) {
-    console.log('Error fetching Employees:', err);
-  }
+  const sql = `SELECT * FROM employees`;
+  const result = await db.promise().query(sql);
+    console.log(result);
+  
+  // try {
+  //   const response = await axios.get('http://localhost:3001/api/employees');
+  //   console.log('Employees', response.data.data);
+  //   mainMenu();
+  // } catch (err) {
+  //   console.log('Error fetching Employees:', err);
+  // }
 }
 
 // Add employees
