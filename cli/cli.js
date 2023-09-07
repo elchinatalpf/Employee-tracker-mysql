@@ -1,9 +1,7 @@
 const inquirer = require('inquirer');
-// const axios = require ('axios');
-console.table();
+require("console.table");
 
 const db = require('../config/connection');
-console.log(db);
 function init () {
   db.connect(function () { mainMenu() });
   
@@ -16,7 +14,7 @@ function mainMenu () {
         name: "choice",
         message: "Select from the employee's tracking list:",
         choices: [
-          "View All Deparments",
+          "View All Departments",
           "View All Roles",
           "View All Employees",
           "Add Department",
@@ -28,9 +26,8 @@ function mainMenu () {
       },
     ])
     .then((answers) => {
-      console.log(answers.options);
-      switch (answers.options) {
-        case "View All Deparments":
+      switch (answers.choice) {
+        case "View All Departments":
           return viewAllDepartments();
           break;
           case "View All Roles":
@@ -60,16 +57,9 @@ function mainMenu () {
 // View all employees
 const viewAllEmployees = async () => {
   const sql = `SELECT * FROM employees`;
-  const result = await db.promise().query(sql);
-    console.log(result);
-  
-  // try {
-  //   const response = await axios.get('http://localhost:3001/api/employees');
-  //   console.log('Employees', response.data.data);
-  //   mainMenu();
-  // } catch (err) {
-  //   console.log('Error fetching Employees:', err);
-  // }
+  const [rows, fields] = await db.promise().query(sql);
+    console.table(rows);
+    mainMenu();
 }
 
 // Add employees
@@ -85,14 +75,11 @@ const addEmployee = () => {
     name: 'lastName',
     message: 'Enter last name'
   },
+  {
+    
+  }
   ]).then(async (answers) => {
-    try {
-      await axios.post('http://localhost:3001/api/employees', answers);
-      console.log('Employee added successfully');
-      mainMenu();
-    } catch (err) {
-      console.log('Error adding employee', err);
-    }
+    // add employee here
   });
 }
 
@@ -125,14 +112,12 @@ const updateEmployee = async () => {
 
   // View all roles
 const viewAllRoles = async () => {
-  try {
-    const response = await axios.get('http://localhost:3001/api/roles');
-    console.log('Roles', response.data.data);
+  const sql = `SELECT * FROM roles`;
+  const [rows, fields] = await db.promise().query(sql);
+    console.table(rows);
     mainMenu();
-  } catch (err) {
-    console.log('Error fetching Roles', err);
-  }
 }
+
 // add roels here
 const addRole = async () => {
   inquirer.prompt([
@@ -165,15 +150,13 @@ const addRole = async () => {
 }
 
 const viewAllDepartments = async () => {
-  try {
-    const response = await axios.get('http://localhost:3001/api/roles');
-    console.log('Departments', response.data.data);
+  const sql = `SELECT * FROM departments`;
+  const [rows, fields] = await db.promise().query(sql);
+    console.table(rows);
     mainMenu();
-  } catch (err) {
-    console.log('Error fetching Departments', err);
-  }
-}
 
+}
+// add a new department
 const addDepartment = async () => {
   inquirer.prompt([
     {
@@ -194,7 +177,7 @@ const addDepartment = async () => {
 }
 
 function quit() {
-  console.log('Exiting application');
+  console.log('Application Ended');
   process.exit();
 }
 
