@@ -1,13 +1,13 @@
 const express = require('express');
 
-const employeesRouter = require('./employees');
 const departmentsRouter = require('./departments');
+const employeesRouter = require('./employees');
 const rolesRouter = require('./roles');
 
 const app = express();
 
-app.use('/employees', employeesRouter);
-app.use('/departments', departmentsRouter);
-app.use('/roles', rolesRouter);
+app.use('/api', departmentsRouter);
+app.use('/api', employeesRouter);
+app.use('/', rolesRouter);
 
 module.exports = app;

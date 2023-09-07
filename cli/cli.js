@@ -35,7 +35,7 @@ function mainMenu () {
         case "View All Employees":
           return viewAllEmployees();
           break;
-          case "Add Deparment":
+          case "Add Department":
             return addDepartment();
             break;
         case "Add Employee":
