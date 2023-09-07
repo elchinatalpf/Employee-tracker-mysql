@@ -1,7 +1,11 @@
 const inquirer = require('inquirer');
 const axios = require ('axios');
+
+function init () {
+  mainMenu();
+}
 // main function with options prompts 
-const mainMenu = () => {
+function mainMenu () {
   inquirer.prompt([
       {
         type: "list",
@@ -20,29 +24,30 @@ const mainMenu = () => {
       },
     ])
     .then((answers) => {
+      console.log(answers.options);
       switch (answers.options) {
-        case "View All Employees":
-          return viewAllEmployees();
-          break;
-        case "Add Employee":
-          return addEmployee();
-          break;
-        case "Delete Employee":
-          return deleteEmployee();
-        case "View All Roles":
-          return viewAllRoles();
-          break;
-        case "Add Role":
-          return addRole();
-          break;
         case "View All Deparments":
           return viewAllDepartments();
           break;
-        case "Add Deparment":
-          return addDepartment();
+          case "View All Roles":
+            return viewAllRoles();
+            break;
+        case "View All Employees":
+          return viewAllEmployees();
           break;
+          case "Add Deparment":
+            return addDepartment();
+            break;
+        case "Add Employee":
+          return addEmployee();
+          break;
+          case "Add Role":
+            return addRole();
+            break;
+        case "Update Employee Role":
+          return updateEmployee();
         case "Quit":
-          return Quit();
+          return quit();
           break;
       }
     });
@@ -84,7 +89,7 @@ const addEmployee = () => {
 }
 
 // Delete employee
-const deleteEmployee = async () => {
+const updateEmployee = async () => {
   try {
     const { data } = await axios.get("http://localhost:3001/api/employees");
     const employees = data.data;
@@ -180,9 +185,9 @@ const addDepartment = async () => {
   });
 }
 
-function Quit() {
-  console.log('Exitiing application');
+function quit() {
+  console.log('Exiting application');
   process.exit();
 }
 
-mainMenu();
+module.exports = { init };
