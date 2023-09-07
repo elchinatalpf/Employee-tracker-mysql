@@ -1,7 +1,7 @@
 // view roles (get) add role (post) update employee role (put)
 // delete roles (delete)
 const router = require('express').Router();
-const db = require('../config/connection');
+const db = require('../../config/connection');
 
 router.get('/', (req, res) => {
   const sql = `SELECT id, role_name FROM roles`;

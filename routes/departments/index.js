@@ -1,7 +1,7 @@
 // view deparments (get) add deparment (post) delete deparment (delete)
 // view managers (get) update managers (put)
 const router = require('express').Router();
-const db = require('../config/connection');
+const db = require('../../config/connection');
 
 router.get('/', (req, res) => {
   const sql = `SELECT id, department_name FROM departments`;
