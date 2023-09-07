@@ -1,5 +1,6 @@
 const inquirer = require('inquirer');
 const axios = require ('axios');
+
 function init () {
   mainMenu();
 }
@@ -24,31 +25,31 @@ function mainMenu () {
     ])
     .then((answers) => {
       console.log(answers.options);
-      // switch (answers.options) {
-        // case "View All Employees":
-        //   return viewAllEmployees();
-        //   break;
-        // case "Add Employee":
-        //   return addEmployee();
-        //   break;
-        // case "Delete Employee":
-        //   return deleteEmployee();
-        // case "View All Roles":
-        //   return viewAllRoles();
-        //   break;
-        // case "Add Role":
-        //   return addRole();
-        //   break;
-        // case "View All Deparments":
-        //   return viewAllDepartments();
-        //   break;
-        // case "Add Deparment":
-        //   return addDepartment();
-        //   break;
-        // case "Quit":
-        //   return Quit();
-        //   break;
-      // }
+      switch (answers.options) {
+        case "View All Deparments":
+          return viewAllDepartments();
+          break;
+          case "View All Roles":
+            return viewAllRoles();
+            break;
+        case "View All Employees":
+          return viewAllEmployees();
+          break;
+          case "Add Deparment":
+            return addDepartment();
+            break;
+        case "Add Employee":
+          return addEmployee();
+          break;
+          case "Add Role":
+            return addRole();
+            break;
+        case "Update Employee Role":
+          return updateEmployee();
+        case "Quit":
+          return quit();
+          break;
+      }
     });
 };
 
@@ -88,7 +89,7 @@ const addEmployee = () => {
 }
 
 // Delete employee
-const deleteEmployee = async () => {
+const updateEmployee = async () => {
   try {
     const { data } = await axios.get("http://localhost:3001/api/employees");
     const employees = data.data;
@@ -184,8 +185,8 @@ const addDepartment = async () => {
   });
 }
 
-function Quit() {
-  console.log('Exitiing application');
+function quit() {
+  console.log('Exiting application');
   process.exit();
 }
 
