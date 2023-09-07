@@ -63,7 +63,7 @@ const viewAllEmployees = async () => {
 }
 
 // Add employees
-const addEmployee = () => {
+const addEmployee = async () => {
   inquirer.prompt([
   {
     type: 'input',
@@ -76,11 +76,22 @@ const addEmployee = () => {
     message: 'Enter last name'
   },
   {
-    
+    type: 'input',
+    name: 'role_id',
+    message: 'Enter role ID'
+  },
+  {
+    type: 'input',
+    name: 'manager_id',
+    message: 'Enter manager ID'
   }
-  ]).then(async (answers) => {
-    // add employee here
+  ]).then(async (answer) => {
+    const sql = `INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`;
+    const params = [answer.first_name, answer.last_name, answer.role_id, answer.manager_id];
+    const [newEmp] = await db.promise().query(sql, params);
+    console.log('Employee added', newEmp);
   });
+  mainMenu();
 }
 
 // Delete employee
