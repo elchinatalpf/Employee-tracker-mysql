@@ -20,7 +20,7 @@ function mainMenu () {
           "Add Department",
           "Add Employee",
           "Add Role",
-          "Update Employee Role",
+          "Delete Employee",
           "Quit",
         ],
       },
@@ -45,8 +45,8 @@ function mainMenu () {
           case "Add Role":
             return addRole();
             break;
-        case "Update Employee Role":
-          return updateEmployee();
+        case "Delete Employee":
+          return deleteEmployee();
         case "Quit":
           return quit();
           break;
@@ -62,7 +62,7 @@ const viewAllEmployees = async () => {
     mainMenu();
 }
 
-// Add employees
+// Add employees works
 const addEmployee = async () => {
   inquirer.prompt([
   {
@@ -78,50 +78,43 @@ const addEmployee = async () => {
   {
     type: 'input',
     name: 'role_id',
-    message: 'Enter role ID'
-  },
-  {
-    type: 'input',
-    name: 'manager_id',
-    message: 'Enter manager ID'
+    message: 'Enter role ID',
+    validate: function(value) {
+      let valid = !isNaN(parseFloat(value)) && (value >= 1&& value <= 6);
+      return valid || 'Please enter a nubmer between 1 and 6';
+    }
   }
   ]).then(async (answer) => {
-    const sql = `INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`;
-    const params = [answer.first_name, answer.last_name, answer.role_id, answer.manager_id];
+    const sql = `INSERT INTO employees (first_name, last_name, role_id) VALUES (?, ?, ?)`;
+    const params = [answer.firstName, answer.lastName, answer.role_id];
     const [newEmp] = await db.promise().query(sql, params);
-    console.log('Employee added', newEmp);
+    console.table('Employee added', newEmp);
+    mainMenu();
   });
   mainMenu();
 }
 
 // Delete employee
-const updateEmployee = async () => {
-  try {
-    const { data } = await axios.get("http://localhost:3001/api/employees");
-    const employees = data.data;
-    const answer = await inquirer.prompt([
-      {
-        type: "list",
-        name: "deleteEmployee",
-        message: "Which employee would you like to delete?",
-        choices: employees.map((emp) => `${emp.first_name} ${emp.last_name}`),
-      },
-    ]);
-    const selectedEmployee = employees.find(
-      (emp) => `${emp.first_name} ${emp.last_name}` === answer.deleteEmployee
-    );
+const deleteEmployee = async () => {
+  const { employeeId } = await inquirer.prompt([
+    {
+      type: 'input',
+      name: 'employeeId',
+      message: 'Enter the employee ID to delete:'
+    }
+  ]);
+  const sql = `DELETE FROM employees WHERE id = ?`;
+  const [result] = await db.promise().query(sql, [employeeId]);
 
-    await axios.delete(
-      `http://localhost:3001/api/employees/${selectedEmployee.id}`
-    );
-    console.log("Employee deleted successfully");
-    mainMenu();
-  } catch (err) {
-    console.log("Error:", err.message);
+  if (result.affectedRows === 0) {
+    console.log('No employee found with the given ID.');
+  } else {
+    console.log('Employee deleted.');
   }
-};
+  mainMenu();
+}
 
-  // View all roles
+  // View all roles works
 const viewAllRoles = async () => {
   const sql = `SELECT * FROM roles`;
   const [rows, fields] = await db.promise().query(sql);
@@ -129,37 +122,36 @@ const viewAllRoles = async () => {
     mainMenu();
 }
 
-// add roels here
+// add roles works
 const addRole = async () => {
   inquirer.prompt([
-    {
+      {
       type: 'input',
       name: 'title',
       message: 'What is the name of the role?'
     },
     {
-      type: 'input',
-      name: 'salary',
-      message: 'What is its salary?'
-    },
-    {
-      type: 'list',
-      name: 'department_id',
-      message: 'Which departments does this role belong to?',
-      choices: ['1: Marketing', '2: Sales', '3: Finance', '4: Legal', '5: HR', '6: Accounting']
-    }
-  ])
-  .then(async (answers) =>{
-    try {
-      await axios.post('http://localhost:3001/api/roles', answers);
-      console.log('Role addedd succssesfully');
-      mainMenu();
-    } catch (err) {
-      console.log('Error adding role', err);
-    }
+        type: 'input',
+        name: 'salary',
+        message: 'What is its salary?'
+      },
+      {
+          type: 'list',
+          name: 'department_id',
+          message: 'Which departments does this role belong to?',
+          choices: ['Marketing', 'Sales', 'Finance', 'Legal', 'HR', 'Accounting']
+        }
+      ])
+      .then(async (answers) => {
+        const sql = `SELECT id FROM departments d WHERE d.name = '${answers.department_id}'`;
+        const depId = await db.promise().query(sql);
+        const insertSql = `INSERT INTO roles (title, salary, department_id) VALUES ('${answers.title}', ${answers.salary}, ${depId[0][0].id})`;
+        const newRole = await db.promise().query(insertSql);
+        console.log('Role added', newRole);
+        mainMenu();
   });
 }
-
+// view departments works
 const viewAllDepartments = async () => {
   const sql = `SELECT * FROM departments`;
   const [rows, fields] = await db.promise().query(sql);
@@ -167,23 +159,21 @@ const viewAllDepartments = async () => {
     mainMenu();
 
 }
-// add a new department
+// add department works
 const addDepartment = async () => {
   inquirer.prompt([
     {
       type: 'input',
-      name: 'department_name',
+      name: 'depName',
       message: 'What is the name of the new department?'
     }
   ])
   .then(async (answers) => {
-    try {
-      await axios.post('http://localhost:3001/api/departments', answers);
-      console.log('Department added successfully');
-      mainMenu();
-    } catch (err) {
-      console.log('Error adding department', err);
-    }
+    const sql = `INSERT INTO departments (name) VALUES (?)`;
+    const params = [answers.depName];
+    const [newDep] = await db.promise().query(sql, params);
+    console.log('Department added', newDep);
+    mainMenu();
   });
 }
 

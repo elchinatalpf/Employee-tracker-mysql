@@ -1,6 +1,8 @@
 # Employee-tracker-mysql
 This project is a CLI-based employee management system that interacts with a MySQL database. Using Node.js and the Inquirer package, the application provides an easy-to-use interface to manage various aspects of an organization's human resources. Users can perform CRUD (Create, Read, Update, Delete) operations on departments, roles, and employees; although some interactions have not been fulfilled.
 
+* The commit's history will show a different approach based on express.js but this application did not require that. Instead, I used a direct simple approach by just calling the cli.js file with the prompts and logic.
+
 ## Table of Content
   * [Description](#description)
   * [Installation](#installation)
